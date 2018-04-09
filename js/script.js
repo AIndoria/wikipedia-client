@@ -1,6 +1,7 @@
 var input=document.getElementById("searchform");
 var inputText;
 
+
 input.addEventListener("keyup",function(event){
   event.preventDefault();
   if(event.keyCode===13){
@@ -23,8 +24,33 @@ function searchWiki(){
   request.send(encodeURI("&search="+inputText));
 }
 
-//I'll modify this later, this is just for testing that this works.
 function loadWiki(attr){
   console.log("Data loaded successfully");
   console.log(attr);
+  var cardDivs=[];
+  attr[1].forEach(function(element,index){ //Adds Heading to the Cards.
+    var cardDiv=document.createElement("div");
+    cardDiv.className="resultsCard"+index;
+    cardDiv.id="cards";
+    cardDiv.innerHTML ="<h4>"+element+"</h4>";
+    //var resultsBox=document.getElementById("resultsbox");
+    //resultsBox.append(cardDiv);
+    cardDivs.push(cardDiv);
+  });
+
+  attr[2].forEach(function(element,index){
+    // console.log(cardDivs[index]);
+    var cardSpan=document.createElement("span");
+    cardSpan.className="cardDesc";
+    cardSpan.id="cardsDesc";
+    cardSpan.innerHTML="<p>"+element+"</p>";
+    var resultsBox=document.getElementById("resultsbox");
+    cardDivs[index].append(cardSpan);
+    resultsBox.append(cardDivs[index]);
+
+  });
+  attr[3].forEach(element => { //Spits out the links for Cards
+    console.log(element);
+  });
 }
+
