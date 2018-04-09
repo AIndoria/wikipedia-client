@@ -112,3 +112,16 @@ a{
     opacity: 1;
   }
 }
+/*Media Queries*/
+@media(max-width:600px) {
+  .title-text{
+    display:none;
+  }
+}
+@media(max-height:600px){
+  .title-text{
+    display:none;
+  }
+}
+
+/*TODO QOL: Add rows for longer displays */
