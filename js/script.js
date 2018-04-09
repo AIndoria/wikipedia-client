@@ -1,22 +1,30 @@
 var input=document.getElementById("searchform");
 var inputText;
 
-
-input.addEventListener("keyup",function(event){
+//Detects Enter
+input.addEventListener("keyup",function(event){ 
   event.preventDefault();
   if(event.keyCode===13){
     inputText=document.getElementById("searchform").value;
-    console.log("Input text was: "+inputText); //Debugging
-    searchWiki();
+    searchWiki(); //Clears results before subsequent searches
+    (function clearResults(){
+      document.getElementById("resultsbox").innerHTML="";
+    })(); 
   }
 });
 
+//Clears form upon click
+input.addEventListener("click",function(event){ 
+  event.preventDefault();
+  document.getElementById("searchform").value="";
+});
+
+//Calls the API
 function searchWiki(){
   var request=new XMLHttpRequest();
   request.open("POST","https://en.wikipedia.org//w/api.php?action=opensearch&origin=*&format=json");
   request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
   request.setRequestHeader("Api-User-Agent","weatherClient-Indoria");
-
   request.onload=function getRequest(){
     var data=JSON.parse(request.responseText);
     loadWiki(data);
@@ -24,10 +32,11 @@ function searchWiki(){
   request.send(encodeURI("&search="+inputText));
 }
 
+//Loads Data
 function loadWiki(attr){
   console.log("Data loaded successfully");
-  console.log(attr);
   var cardDivs=[];
+  var cardSpans=[];
   attr[1].forEach(function(element,index){ //Adds Heading to the Cards.
     var cardDiv=document.createElement("div");
     cardDiv.className="resultsCard"+index;
@@ -44,13 +53,20 @@ function loadWiki(attr){
     cardSpan.className="cardDesc";
     cardSpan.id="cardsDesc";
     cardSpan.innerHTML="<p>"+element+"</p>";
-    var resultsBox=document.getElementById("resultsbox");
     cardDivs[index].append(cardSpan);
+    var resultsBox=document.getElementById("resultsbox");
     resultsBox.append(cardDivs[index]);
-
+    cardSpans.push(cardDivs[index]);
   });
-  attr[3].forEach(element => { //Spits out the links for Cards
-    console.log(element);
+
+  attr[3].forEach(function(element, index){
+    var wrapper=document.createElement("a");
+    wrapper.setAttribute("href", element);
+    wrapper.setAttribute("target", "_blank");
+    var text=cardSpans[index];
+    console.log(text);
+    text.parentNode.insertBefore(wrapper, text);
+    wrapper.appendChild(text);
   });
 }
 
