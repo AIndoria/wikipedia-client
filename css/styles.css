@@ -8,6 +8,7 @@ a{
   display:grid;
   grid-template-columns:repeat(6, 1fr);
   grid-template-rows:20% 1fr 10%;
+  max-height:auto;
   height:100%;
   grid-row-gap:1em;
   box-shadow:1px 1px 2px 1px black;
@@ -26,6 +27,11 @@ a{
   align-items:center;
   grid-area:1/3/1/5;
 }
+#searchform{
+  text-align:center;
+  color:grey;
+}
+
 .randombox{
   display:flex;
   justify-content:center;
@@ -38,5 +44,28 @@ a{
 }
 .results-container{
   grid-area:2/1/2/7;
-  height:100%;
+  overflow-y: auto;
+  justify-content: center;
+  align-items:center;
+}
+.resultsbox{
+  height:auto;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+#cards{
+  flex:1;
+  padding:20px 20px 0 20px;
+  border:1px solid grey;
+  box-shadow:1px 1px 2px grey;
+  margin: 5px 20px;
+}
+#cards h4{
+  text-align:center;
+}
+.attribution-container{
+  grid-area:3/1/3/7;
+  text-align:center;
+  margin:auto;
 }
